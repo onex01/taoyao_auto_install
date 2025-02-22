@@ -14,7 +14,6 @@ while true; do
     read confirm
     if [[ $confirm == "yes" ]]; then
         echo "Confirmed"
-        read -t 3
         break
     elif [[ $confirm == "no" ]]; then
         echo "Rejected"
@@ -35,7 +34,7 @@ fastboot $* flash dtbo `dirname $0`/recovery/dtbo.img
 if [ $? -ne 0 ] ; then echo "Flash dtbo error"; exit 1; fi
 fastboot $* flash vendor_boot `dirname $0`/recovery/vendor_boot.img
 if [ $* -ne 0 ] ; then echo "Flash venodr_boot error"; exit 1; fi
-fastboot $* fastboot recovery
+fastboot $* reboot recovery
 if [ $* -ne 0 ] ; then echo "Reboot recovery error"; exit 1; fi
 
 # pause to enable sideload
