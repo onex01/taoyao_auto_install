@@ -19,6 +19,7 @@ if /i "%confirm%"=="yes" (
 set ADB_PATH=%~dp0adb/
 cd /d "%ADB_PATH%"
 set RECOVERY_PATH=%~dp0recovery
+set ROM_PATH=%~dp0rom
 
 %ADB_PATH%/fastboot.exe -w || @echo "Clean data error" && exit 1
 echo Cleaning completed successfully
@@ -34,7 +35,7 @@ echo vendor_boot.img successfully flashed
 echo Successfully rebooted into recovery
 echo Press ENTER to start sideloading the ROM... 
 pause
-for %%f in (%~dp0recovery\*.zip) do (
+for %%f in (%~dp0rom\*.zip) do (
     echo Processing file: %%f
     %ADB_PATH%/adb.exe sideload "%%f" || (
         echo Send rom error
