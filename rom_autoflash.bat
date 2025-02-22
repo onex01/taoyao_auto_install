@@ -27,7 +27,7 @@ echo Cleaning completed successfully
 echo Slot A was successfully selected
 %ADB_PATH%/fastboot.exe flash boot %RECOVERY_PATH%/boot.img || @echo "Flash boot error" && exit 1
 echo boot.img successfully flashed
-%ADB_PATH%/fastboot.exe flash %RECOVERY_PATH%/dtbo dtbo.img || @echo "Flash dtbo error" && exit 1
+%ADB_PATH%/fastboot.exe flash dtbo %RECOVERY_PATH%/dtbo.img || @echo "Flash dtbo error" && exit 1
 echo dtbo.img successfully flashed
 %ADB_PATH%/fastboot.exe flash vendor_boot %RECOVERY_PATH%/vendor_boot.img || @echo "Flash venodr_boot error" && exit 1
 echo vendor_boot.img successfully flashed
