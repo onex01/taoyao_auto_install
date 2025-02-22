@@ -8,7 +8,6 @@ echo This script will delete all data, type 'yes' to continue, or 'no' to cancel
 set /p confirm=Enter your choice:
 if /i "%confirm%"=="yes" (
     echo Confirmed   
-    pause 5
 ) else if /i "%confirm%"=="no" (
     echo Rejected
     exit /b 1
@@ -34,5 +33,5 @@ echo vendor_boot.img successfully flashed
 %ADB_PATH%/fastboot.exe reboot recovery || @echo "Reboot recovery error" && exit 1
 echo Successfully rebooted into recovery
 echo Press ENTER to start sideloading the ROM... 
-Read-Hostadb for %%f in (%~dp0recovery\*.zip) do %ADB_PATH%/adb.exe sideload "%%f" || @echo "Send rom error" && exit 1
+pause for %%f in (%~dp0recovery\*.zip) do %ADB_PATH%/adb.exe sideload "%%f" || @echo "Send rom error" && exit 1
 echo Rom installed successfully :D !
