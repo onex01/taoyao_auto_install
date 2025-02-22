@@ -34,5 +34,11 @@ echo vendor_boot.img successfully flashed
 echo Successfully rebooted into recovery
 echo Press ENTER to start sideloading the ROM... 
 pause
-for %%f in (%~dp0recovery\*.zip) do %ADB_PATH%/adb.exe sideload "%%f" || @echo "Send rom error" && exit 1
+for %%f in (%~dp0recovery\*.zip) do (
+    echo Processing file: %%f
+    %ADB_PATH%/adb.exe sideload "%%f" || (
+        echo Send rom error
+        exit /b 1
+    )
+)
 echo Rom installed successfully :D !
