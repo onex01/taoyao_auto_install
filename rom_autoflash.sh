@@ -1,14 +1,36 @@
 #!/bin/bash
 
-# It is recommended to use bash instead of sh.
-# Because the last command of installation will give an error.
-# You will need to enter "adb sideload rom.zip" manually.
+# This script allows you to choose between prepared folders with images and zip files.
 
+# Define available image folders
+IMG_FOLDERS=("ammarbahtiarasli_img" "dkpost3_img")
+
+# Find all .zip files in the 'rom' directory
+ROM_DIR="$(dirname $0)/rom"
+ZIP_FILES=()
+for file in $(find "$ROM_DIR" -maxdepth 1 -name '*.zip'); do
+    ZIP_FILES+=("${file##*/}")
+done
+
+# Function to display menu and get user choice
+select_option() {
+    PS3="Please select an option: "
+    options=("$@")
+    select opt in "${options[@]}"; do
+        if [ "$opt" ]; then
+            echo "You selected: $opt"
+            return
+        else
+            echo "Invalid selection. Please try again."
+        fi
+    done
+}
+
+# Step 1: Ask for confirmation before proceeding
 echo "-------------------------------------------"
-echo "By Devine Machinery (.sh by OneX01)"
+echo "                  OneX01"
 echo "-------------------------------------------"
 
-# This script is not used when using sh, as well as on line 43.
 while true; do
     echo "This script will delete all data, type 'yes' to continue, or 'no' to cancel."
     read confirm
@@ -23,25 +45,35 @@ while true; do
     fi
 done
 
-# fastboot line 28-39
+# Step 2: Choose the folder containing the images
+echo "Select the folder containing the images:"
+select_option "${IMG_FOLDERS[@]}"
+CHOSEN_IMG_FOLDER=$opt
+
+# Step 3: Choose the ZIP file
+echo "Available .zip files in '$ROM_DIR':"
+select_option "${ZIP_FILES[@]}"
+CHOSEN_ZIP_FILE=$opt
+
+# Step 4: Perform the actual commands based on user's choices
 fastboot $* -w
 if [ $? -ne 0 ] ; then echo "Clean data error"; exit 1; fi
 fastboot $* set_active a
 if [ $? -ne 0 ] ; then echo "Error active slot A"; exit 1; fi
-fastboot $* flash boot `dirname $0`/recovery/boot.img
+fastboot $* flash boot "$CHOSEN_IMG_FOLDER"/recovery/boot.img
 if [ $? -ne 0 ] ; then echo "Flash boot error"; exit 1; fi
-fastboot $* flash dtbo `dirname $0`/recovery/dtbo.img
+fastboot $* flash dtbo "$CHOSEN_IMG_FOLDER"/recovery/dtbo.img
 if [ $? -ne 0 ] ; then echo "Flash dtbo error"; exit 1; fi
-fastboot $* flash vendor_boot `dirname $0`/recovery/vendor_boot.img
-if [ $* -ne 0 ] ; then echo "Flash venodr_boot error"; exit 1; fi
+fastboot $* flash vendor_boot "$CHOSEN_IMG_FOLDER"/recovery/vendor_boot.img
+if [ $? -ne 0 ] ; then echo "Flash vendor_boot error"; exit 1; fi
 fastboot $* reboot recovery
-if [ $* -ne 0 ] ; then echo "Reboot recovery error"; exit 1; fi
+if [ $? -ne 0 ] ; then echo "Reboot recovery error"; exit 1; fi
 
-# pause to enable sideload
-echo "Press ENTER to start seideload the ROM..."
-read -n 1 -s -r # Use bash.
+# Pause to enable sideload
+echo "Press ENTER to start sideloading the ROM..."
+read -n 1 -s -r
 
-# adb line 46-47
-adb $* sideload `dirname $0`/rom/*.zip
-if [ $? -ne - ] ; then echo "Send rom error"; exit 1; fi
-echo "Rom installed successfully :D !"
+# Sideload the chosen ZIP file
+adb $* sideload "$ROM_DIR/$CHOSEN_ZIP_FILE"
+if [ $? -ne 0 ] ; then echo "Send rom error"; exit 1; fi
+echo "ROM installed successfully :D!"
