@@ -14,3 +14,8 @@
 > This instruction is similar to the script for OrangeFox
 
 [OrangFox and aosp recovery a15](https://drive.google.com/drive/folders/14sD-EWV80jD2LChz6kUOeReKRoJAHQ3v?usp=sharing)
+
+## In the beta version there is a choice of which vendor the AOSP recovery will be from, and a choice of .zip files.
+### Made so that you have one folder with convenient installation of firmware without unnecessary steps.
+- [x] **Works on Linux**
+- [ ] **Works on Windows**
