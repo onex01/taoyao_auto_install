@@ -60,11 +60,11 @@ fastboot $* -w
 if [ $? -ne 0 ] ; then echo "Clean data error"; exit 1; fi
 fastboot $* set_active a
 if [ $? -ne 0 ] ; then echo "Error active slot A"; exit 1; fi
-fastboot $* flash boot "$CHOSEN_IMG_FOLDER"/recovery/boot.img
+fastboot $* flash boot "$CHOSEN_IMG_FOLDER"/boot.img
 if [ $? -ne 0 ] ; then echo "Flash boot error"; exit 1; fi
-fastboot $* flash dtbo "$CHOSEN_IMG_FOLDER"/recovery/dtbo.img
+fastboot $* flash dtbo "$CHOSEN_IMG_FOLDER"/dtbo.img
 if [ $? -ne 0 ] ; then echo "Flash dtbo error"; exit 1; fi
-fastboot $* flash vendor_boot "$CHOSEN_IMG_FOLDER"/recovery/vendor_boot.img
+fastboot $* flash vendor_boot "$CHOSEN_IMG_FOLDER"/vendor_boot.img
 if [ $? -ne 0 ] ; then echo "Flash vendor_boot error"; exit 1; fi
 fastboot $* reboot recovery
 if [ $? -ne 0 ] ; then echo "Reboot recovery error"; exit 1; fi
