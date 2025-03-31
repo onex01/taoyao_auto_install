@@ -14,3 +14,4 @@
 > This instruction is similar to the script for OrangeFox
 
 [OrangFox a14 and aosp recovery a15](https://drive.google.com/drive/folders/14sD-EWV80jD2LChz6kUOeReKRoJAHQ3v?usp=sharing)
+in releases all recovery is built-in
